@@ -1,0 +1,36 @@
+
+$index-m: calc(1vw + 1vh);
+$index: calc($index-m * .8);
+$fullWidth: 100vw;
+$fullHeight: 100vh;
+
+
+// Colors
+$background: #000;
+$primary-color: #1A1A1A;
+$primary-elevated-color: #333;
+$secondary-color: #E5E5EA;
+$accent-color: #fff;
+
+$text-color: $secondary-color;
+
+// Radius
+$radius: $index;
+
+// Gap
+$gap: $index;
+$gap-s: 16px;
+$gap-m: 24px;
+$gap-l: 36px;
+
+// Padding
+$padding: $index;
+$padding-s: 16px;
+$padding-m: 24px;
+$padding-l: 36px;
+
+// Font
+$font-family: "Jost", sans-serif;
+
+// Transition
+$transition: .25s;

@@ -1,0 +1,23 @@
+@import "@/app/styles/variables";
+
+@mixin section($w: 100%, $h: 100%, $g: $gap) {
+	width: $w;
+	height: $h;
+	display: flex;
+	gap: $g;
+}
+
+@mixin box($w: 100%, $h: 100%, $p: $padding, $bg: $primary-color) {
+	width: $w;
+	height: $h;
+	padding: $p;
+	border-radius: $radius;
+	border: 1px solid $primary-elevated-color;
+	background: $bg;
+	transition: $transition;
+}
+
+@mixin box-active() {
+	border-color: transparent;
+	box-shadow: inset 0 0 $index-m $accent-color;
+}
