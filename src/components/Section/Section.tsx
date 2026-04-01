@@ -9,11 +9,11 @@ interface sectionProp {
   h?: string;
 }
 
-export default function Section({children, className, w, h}:sectionProp) {
+export default function Section({children, className, w = "100%", h = "100%"}:sectionProp) {
   return (
     <div 
       className={clsx(s.section, className)}
-      style={{width: w ? w : "100%", height: h ? h : "100%"}}
+      style={{width: w, height: h}}
     >{children}</div>
   )
 }

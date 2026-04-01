@@ -1,0 +1,19 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  color: #b3b3b3;
+  font-size: 12px;
+
+  .slider {
+    flex-grow: 1;
+    cursor: pointer;
+    accent-color: #1db954; // Цвет ползунка (как в Spotify)
+    height: 4px;
+    
+    &:hover {
+      accent-color: #1ed760;
+    }
+  }
+}

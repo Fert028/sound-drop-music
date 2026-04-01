@@ -10,7 +10,7 @@ export default function Logo({size}:logoProp) {
   const s = size ? size : 64;
 
   return (
-    <Link href={"/"}>
+    <Link href={"/"} style={{userSelect: 'none'}}>
       <Image
         src="/sdm-logo.svg" 
         alt="SDM logo"

@@ -1,11 +1,9 @@
 @import "@/app/styles/variables.scss";
 
 .box {
-	// width: 100%;
-	// height: 100%;
 	padding: $padding;
 	border-radius: $radius;
-	border: 1px solid $primary-elevated-color;
 	background: $primary-color;
+	border: $border;
 	transition: $transition;
 }

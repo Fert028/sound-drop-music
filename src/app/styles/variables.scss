@@ -1,6 +1,5 @@
 
-$index-m: calc(1vw + 1vh);
-$index: calc($index-m * .8);
+$index: calc((1vw + 1vh) * .6);
 $fullWidth: 100vw;
 $fullHeight: 100vh;
 
@@ -15,7 +14,13 @@ $accent-color: #fff;
 $text-color: $secondary-color;
 
 // Radius
-$radius: $index;
+$radius: calc($index * 1.4);
+
+// Border
+$border: 1px solid $primary-elevated-color;
+
+// Shadow
+$shadow: 0 0 $index rgba(#000, .25);
 
 // Gap
 $gap: $index;
@@ -33,4 +38,4 @@ $padding-l: 36px;
 $font-family: "Jost", sans-serif;
 
 // Transition
-$transition: .25s;
+$transition: all .2s ease-in-out;

@@ -1,0 +1,20 @@
+@import "@/app/styles/variables";
+@import "@/app/styles/mixins";
+
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: $secondary-color;
+  box-shadow: $shadow;
+  cursor: pointer;
+  transition: $transition;
+  &:hover {
+    background: rgba($secondary-color, .8);
+  }
+}
+
+

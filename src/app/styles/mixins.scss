@@ -1,5 +1,12 @@
 @import "@/app/styles/variables";
 
+
+@mixin center() {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
 @mixin section($w: 100%, $h: 100%, $g: $gap) {
 	width: $w;
 	height: $h;
@@ -12,12 +19,12 @@
 	height: $h;
 	padding: $p;
 	border-radius: $radius;
-	border: 1px solid $primary-elevated-color;
+	border: $border;
 	background: $bg;
 	transition: $transition;
 }
 
 @mixin box-active() {
 	border-color: transparent;
-	box-shadow: inset 0 0 $index-m $accent-color;
+	box-shadow: inset 0 0 $index $accent-color;
 }

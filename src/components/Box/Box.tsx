@@ -13,7 +13,7 @@ export default function Box({children, className, w, h}:boxProp) {
   return (
     <div 
       className={clsx(s.box, className)}
-      style={{width: w ? w : "100%", height: h ? h : "100%"}}
+      style={{width: w ? w : "100%", height: h ? h : "100%", minWidth: "128px", minHeight: "48px"}}
     >{children}</div>
   )
 }

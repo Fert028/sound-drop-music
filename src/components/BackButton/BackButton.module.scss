@@ -1,0 +1,18 @@
+@import "@/app/styles/variables";
+@import "@/app/styles/mixins";
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  width: 36px;
+  border-radius: 50%;
+  border: $border;
+  background: rgba($primary-elevated-color, .25);
+  box-shadow: $shadow;
+  transition: $transition;
+  &:hover {
+    background: rgba($primary-elevated-color, .6);
+  }
+}

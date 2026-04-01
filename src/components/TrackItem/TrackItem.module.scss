@@ -1,0 +1,52 @@
+@import "@/app/styles/variables";
+@import "@/app/styles/mixins";
+
+.trackItem {
+  display: flex;
+  align-items: center;
+  padding: $padding;
+  border-radius: $radius;
+  cursor: pointer;
+  transition: $transition;
+  gap: $gap;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.05); 
+  }
+
+  &.active {
+    background: rgba(37, 99, 235, 0.1);
+    color: #3b82f6;
+  }
+}
+.coverWrapper {
+  display: flex;
+}
+.playOverlay {
+  aspect-ratio: 1;
+  width: 24px;
+  @include center;
+}
+.meta {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+
+  .trackTitle {
+    font-weight: 500;
+  }
+
+  .trackArtist {
+    font-size: 0.85rem;
+    opacity: 0.6;
+  }
+}
+
+.duration {
+  font-size: 0.85rem;
+  opacity: 0.5;
+}
+.heartBtn {
+  background: none;
+  border-radius: 50%;
+}

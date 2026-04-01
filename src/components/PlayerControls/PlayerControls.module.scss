@@ -1,0 +1,209 @@
+// @use "@/app/styles/variables" as *;
+
+// .container {
+//   display: flex;
+//   justify-content: space-between;
+// }
+// .info {
+//   display: flex;
+//   flex-direction: column;
+//   .title { font-weight: bold; }
+//   .artist { font-size: 0.8rem; color: #b3b3b3; }
+// }
+
+// .controls {
+//   display: flex;
+//   align-items: center;
+//   gap: $gap;
+// }
+// .switchButton {
+//   background: none;
+//   border: none;
+//   color: white;
+//   cursor: pointer;
+//   transition: transform 0.1s;
+// }
+// .togglePlay {
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   width: 72px;
+//   height: 32px;
+//   border-radius: $radius;
+//   background: $secondary-color;
+//   box-shadow: $shadow;
+//   cursor: pointer;
+//   transition: $transition;
+//   &:hover {
+//     background: rgba($secondary-color, .8);
+//   }
+// }
+
+
+
+
+@use "@/app/styles/variables" as *;
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; // Чтобы инфо, контроллы и волюм были на одной линии
+  padding: 1rem 2rem;
+  background: #121212; // Или твоя переменная фона
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  min-width: 180px; // Чтобы блок не прыгал при смене названия
+
+  .title { 
+    font-weight: bold; 
+    font-size: 0.9rem;
+  }
+  .artist { 
+    font-size: 0.8rem; 
+    color: #b3b3b3; 
+  }
+}
+
+// Новый контейнер для центрирования кнопок и полоски
+.mainControls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex: 1; // Занимает всё свободное место в центре
+  max-width: 500px;
+}
+.buttons {
+  display: flex;
+  align-items: center;
+  gap: $gap;
+}
+.controls {
+  display: flex;
+  align-items: center;
+  gap: $gap;
+}
+
+.switchButton {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.1s;
+  display: flex;
+  align-items: center;
+  opacity: 0.7;
+
+  &:hover {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+.togglePlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 32px;
+  border-radius: $radius;
+  background: $secondary-color;
+  box-shadow: $shadow;
+  cursor: pointer;
+  border: none; // Убираем дефолтную рамку кнопки
+  transition: $transition;
+
+  &:hover {
+    background: rgba($secondary-color, .8);
+    transform: scale(1.05);
+  }
+}
+
+// Стили для SeekBar
+.seekbar {
+  display: flex;
+  align-items: center;
+  gap: $gap;
+  width: 100%;
+
+}
+.time {
+  font-size: 11px;
+  color: #a7a7a7;
+  min-width: 30px;
+}
+
+.slider {
+  flex: 1;
+  height: 4px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: #4d4d4d;
+  border-radius: 2px;
+  cursor: pointer;
+  outline: none;
+
+  // Цвет прогресса (только для Chrome/Edge)
+  &::-webkit-slider-runnable-track {
+    height: 4px;
+  }
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    background: white;
+    margin-top: -4px; // Центрируем ползунок
+    opacity: 0; // Скрываем кружок в покое
+    transition: opacity 0.2s;
+  }
+
+  &:hover {
+    &::-webkit-slider-thumb {
+      opacity: 1; // Показываем кружок при наведении
+    }
+    background: $secondary-color; // Или другой акцентный цвет
+  }
+}
+
+.info {
+  display: flex;
+  align-items: center; // Выравниваем обложку и текст по центру
+  gap: $gap;
+}
+.coverWrapper {
+  flex-shrink: 0; // Чтобы картинка не сжималась
+  display: flex;
+  align-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: $radius;
+  overflow: hidden;
+  box-shadow: $shadow;
+}
+
+.cover {
+  object-fit: cover;
+}
+
+.textInfo {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; // Чтобы длинные названия не ломали верстку
+
+}
+.title { 
+  font-weight: bold; 
+  white-space: nowrap;
+  text-overflow: ellipsis; 
+  overflow: hidden;
+}
+
+.artist { 
+  font-size: 0.8rem; 
+  color: #b3b3b3; 
+}

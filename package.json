@@ -9,11 +9,14 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@deemlol/next-icons": "^0.2.7",
     "clsx": "^2.1.1",
+    "framer-motion": "^12.38.0",
     "next": "16.2.1",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "sass": "^1.98.0"
+    "sass": "^1.98.0",
+    "serif": "^0.0.0"
   },
   "devDependencies": {
     "@types/node": "^20",

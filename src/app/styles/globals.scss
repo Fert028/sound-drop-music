@@ -24,9 +24,12 @@ body {
 }
 
 body {
-  min-height: 100%;
+  width: $fullWidth;
+  height: $fullHeight;
+  padding: $padding;
   display: flex;
   flex-direction: column;
+  gap: $gap;
   color: $text-color;
   background: var(--background);
   font-family: $font-family;
@@ -43,6 +46,20 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+  cursor: pointer;
+}
+button {
+  border: none;
+  cursor: pointer;
+  user-select: none;
+}
+
+.main {
+  // width: $fullWidth;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: $gap;
 }
 
 

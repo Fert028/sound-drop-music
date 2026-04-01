@@ -1,0 +1,18 @@
+[
+  { 
+    "id": 1, 
+    "title": "Чужое горе", 
+    "artist": "Порнофильмы", 
+    "src": "/music/Chuzhoe_gore.mp3", 
+    "duration": "3:24",
+    "cover": "/covers/track1.jpg"  
+  },
+  { 
+    "id": 2, 
+    "title": "Track 2", 
+    "artist": "Artist 2", 
+    "src": "/music/track2.mp3", 
+    "duration": "1:28",
+    "cover": "/covers/track2.jpg"  
+  }
+]
