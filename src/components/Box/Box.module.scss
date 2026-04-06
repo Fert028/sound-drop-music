@@ -1,9 +1,13 @@
-@import "@/app/styles/variables.scss";
+@use "@/app/styles/variables" as *;
 
 .box {
 	padding: $padding;
 	border-radius: $radius;
-	background: $primary-color;
-	border: $border;
+	@include bg-glass;
+	// background: $primary-color;
+	// border: $border;
 	transition: $transition;
+	// * {
+	// 	border-radius: calc($radius - $padding);
+	// }
 }

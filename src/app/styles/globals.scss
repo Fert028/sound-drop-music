@@ -1,16 +1,17 @@
-@import "./variables";
-@import "./mixins";
+@use "./variables" as *;
+
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --x: 50vw;
+  --y: 50vh;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  will-change: transform, opacity;
 }
 
 html {
@@ -31,17 +32,54 @@ body {
   flex-direction: column;
   gap: $gap;
   color: $text-color;
-  background: var(--background);
+  background: $background;
+  overflow-x: hidden;
+  z-index: 1;
+  // background: $background;
   font-family: $font-family;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+  background-image: radial-gradient(
+    rgba(255, 255, 255, 0.08) 1px,
+    transparent 1px
+  );
+  background-size: 12px 12px;
 }
+// body::after {
+//   content: "";
+//   position: fixed;
+//   inset: 0;
+//   pointer-events: none;
+//   z-index: 1;
+
+//   background: radial-gradient(
+//     circle at 50% 20%,
+//     rgba(255, 255, 255, 0.06),
+//     transparent 40%
+//   );
+// }
+html::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+
+  background: radial-gradient(
+    circle,
+    transparent 60%,
+    rgba(#000, 0.06)
+  );
+}
+
 
 a {
   color: inherit;
@@ -53,9 +91,42 @@ button {
   cursor: pointer;
   user-select: none;
 }
+h1 {
+  @include h1;
+}
+h2 {
+  @include h2;
+}
+
+.cursorBlob {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 300px;
+  height: 300px;
+
+  pointer-events: none;
+  z-index: 0;
+
+  transform: translate(-50%, -50%);
+
+  border-radius: 50%;
+
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.15),
+    rgba(255, 255, 255, 0.05),
+    transparent 70%
+  );
+
+  filter: blur(40px);
+
+  opacity: 0.8;
+  will-change: transform;
+}
 
 .main {
-  // width: $fullWidth;
+  position: relative;
   height: 100%;
   display: flex;
   flex-direction: column;

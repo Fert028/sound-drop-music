@@ -1,0 +1,56 @@
+@use "@/app/styles/variables" as *;
+
+
+.container {
+  display: flex;
+  align-items: center;
+  gap: $gap;
+  width: 100%;
+  max-width: 600px;
+}
+
+.range {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 8px;
+  border-radius: $radius;
+  cursor: pointer;
+  outline: none;
+  flex-grow: 1;
+  transition: height 0.1s ease;
+
+  &:hover {
+    height: 10px; // Немного увеличиваем при наведении
+    &::-webkit-slider-thumb {
+      opacity: 1;
+    }
+  }
+
+  // Кругляшок (Thumb) для Chrome/Safari
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    opacity: 0; // Скрываем, пока не навели
+    transition: opacity 0.1s ease;
+  }
+
+  // Для Firefox
+  &::-moz-range-thumb {
+    height: 12px;
+    width: 12px;
+    border: none;
+    border-radius: 50%;
+    background: #ffffff;
+    opacity: 0;
+  }
+}
+
+.time {
+  font-size: 12px;
+  min-width: 35px;
+  color: #ccc;
+}

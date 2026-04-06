@@ -1,0 +1,21 @@
+@use "@/app/styles/variables" as *;
+
+
+.linkWrapper {
+  border-radius: $radius;
+  // aspect-ratio: 1;
+  height: 100%;
+}
+.box_link_glow {
+  @include glass-glow;
+}
+.box_header {
+  width: 100%;
+  height: min-content;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  // justify-content: space-between;
+  gap: $gap;
+  padding: $padding;
+}

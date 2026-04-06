@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Jost } from "next/font/google";
 import "./styles/globals.scss";
 import { AudioProvider } from '@/context/AudioContext';
+import GlobalGlow from "@/components/GlobalGlow/GlobalGlow";
+import CursorBlob from "@/components/CursorBlob/CursorBlob";
+import PageTransition from "@/components/PageTransition/PageTransition";
 import PlayerControls from '@/components/PlayerControls/PlayerControls';
 import Section from "@/components/Section/Section";
 import Header from "@/components/Header/Header";
@@ -29,13 +32,22 @@ export default async function RootLayout({children}: Readonly<{children: React.R
   return (
     <html lang="en" className={`${jost.variable}`}>
       <body>
-        <Header />
+
+        {/* <GlobalGlow /> */}
+
         <AudioProvider initialPlaylist={tracks}>
-          {children}
+          <Header />
+
+            <PageTransition>
+              {children}
+            </PageTransition>
+
           <Section h="min-content">
             <PlayerControls />
           </Section>
+
         </AudioProvider>
+
       </body>
     </html>
   );

@@ -1,14 +1,23 @@
-import s from  "./Header.module.scss";
-import Logo from "../Logo/Logo";
-import Box from "../Box/Box";
+'use client';
+
+import s from "./Header.module.scss";
+import Link from "next/link";
+import Image from "next/image";
+import Navbar from "../Navbar/Navbar";
 
 export default function Header() {
   return (
     <header className={s.header}>
-      <Box>
-        <Logo size={72}></Logo>
-        Sound Drop Music
-      </Box>
+      <Link href={'/'} className={s.logo_title}>
+        <Image
+          src="/sdm-logo.svg" 
+          alt="SDM logo"
+          width={36}
+          height={36}
+        />
+        <h2>Sound Drop Music</h2>
+      </Link>
+      <Navbar />
     </header>
   )
 }

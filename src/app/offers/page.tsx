@@ -1,3 +1,5 @@
+
+import { motion } from "framer-motion";
 import s from "./page.module.scss";
 import Section from "@/components/Section/Section";
 import Box from "@/components/Box/Box";

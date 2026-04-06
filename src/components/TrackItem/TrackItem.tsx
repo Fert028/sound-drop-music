@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useAudio } from '@/context/AudioContext';
 import { Play, Pause, Star } from '@deemlol/next-icons';
 import s from './TrackItem.module.scss';
-import { Track } from '@/context/AudioContext'; // Импортируй интерфейс
+import { Track } from '@/context/AudioContext';
 
 interface TrackItemProps {
   track: Track;

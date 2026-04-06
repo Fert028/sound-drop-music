@@ -48,8 +48,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center; // Чтобы инфо, контроллы и волюм были на одной линии
-  padding: 1rem 2rem;
-  background: #121212; // Или твоя переменная фона
+  padding: $padding;
 }
 
 .info {
@@ -63,7 +62,7 @@
   }
   .artist { 
     font-size: 0.8rem; 
-    color: #b3b3b3; 
+    color: $subtext-color; 
   }
 }
 
@@ -72,7 +71,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: $gap;
   flex: 1; // Занимает всё свободное место в центре
   max-width: 500px;
 }
@@ -90,16 +89,12 @@
 .switchButton {
   background: none;
   border: none;
-  color: white;
   cursor: pointer;
-  transition: transform 0.1s;
+  transition: $transition;
   display: flex;
   align-items: center;
-  opacity: 0.7;
-
-  &:hover {
-    opacity: 1;
-    transform: scale(1.1);
+  &:active {
+    scale: 1.1;
   }
 }
 
@@ -108,18 +103,12 @@
   align-items: center;
   justify-content: center;
   width: 72px;
-  height: 32px;
+  height: 28px;
   border-radius: $radius;
   background: $secondary-color;
   box-shadow: $shadow;
   cursor: pointer;
-  border: none; // Убираем дефолтную рамку кнопки
   transition: $transition;
-
-  &:hover {
-    background: rgba($secondary-color, .8);
-    transform: scale(1.05);
-  }
 }
 
 // Стили для SeekBar
@@ -132,7 +121,7 @@
 }
 .time {
   font-size: 11px;
-  color: #a7a7a7;
+  color: $subtext-color;
   min-width: 30px;
 }
 
@@ -153,20 +142,13 @@
 
   &::-webkit-slider-thumb {
     -webkit-appearance: none;
-    height: 12px;
-    width: 12px;
+    height: 8px;
+    width: 8px;
     border-radius: 50%;
-    background: white;
+    background: $accent-color;
     margin-top: -4px; // Центрируем ползунок
     opacity: 0; // Скрываем кружок в покое
     transition: opacity 0.2s;
-  }
-
-  &:hover {
-    &::-webkit-slider-thumb {
-      opacity: 1; // Показываем кружок при наведении
-    }
-    background: $secondary-color; // Или другой акцентный цвет
   }
 }
 
@@ -207,3 +189,4 @@
   font-size: 0.8rem; 
   color: #b3b3b3; 
 }
+

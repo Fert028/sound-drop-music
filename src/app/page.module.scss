@@ -1,19 +1,6 @@
 // Home Page
 
-@import "@/app/styles/variables";
-@import "@/app/styles/mixins";
-
-
-.section {
-  width: 100%;
-  display: flex;
-  gap: $gap;
-}
-
-.header {
-  display: flex;
-  align-items: center;
-}
+@use "@/app/styles/variables" as *;
 
 .boxMusic {
   display: flex;
@@ -22,18 +9,25 @@
 }
 .boxMusic_header {
   width: 100%;
+  height: min-content;
   display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
   justify-content: space-between;
+  padding: $padding;
 }
 .link {
-  @include box($w: 220px, $h: 56px,$p: 0, $bg: transparent);
+  height: min-content;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: $gap;
   user-select: none;
+  color: $subtext-color;
+  @include button;
+  transition: $transition;
   &:hover {
-    @include box-active;
+    color: $text-color;
   }
 }
 
@@ -42,6 +36,12 @@
   transition: all .2s ease-in-out;
 }
 
+.section_music {
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: $gap;
+}
 
 
 

@@ -1,7 +1,13 @@
-@import "@/app/styles/variables";
-@import "@/app/styles/mixins";
+@use "@/app/styles/variables" as *;
 
 
 .header {
-  
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo_title {
+  display: flex;
+  align-items: center;
+  gap: $gap;
 }
