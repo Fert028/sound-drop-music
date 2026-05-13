@@ -86,7 +86,7 @@
   gap: $gap;
 }
 
-.switchButton {
+.switchButton, .togglePlay {
   background: none;
   border: none;
   cursor: pointer;
@@ -99,26 +99,17 @@
 }
 
 .togglePlay {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 72px;
-  height: 28px;
-  border-radius: $radius;
-  background: $secondary-color;
-  box-shadow: $shadow;
-  cursor: pointer;
-  transition: $transition;
+  width: 32px;
+  aspect-ratio: 1;
 }
 
-// Стили для SeekBar
-.seekbar {
+.range_container {
+  width: 700px;
   display: flex;
   align-items: center;
   gap: $gap;
-  width: 100%;
-
 }
+
 .time {
   font-size: 11px;
   color: $subtext-color;

@@ -27,7 +27,7 @@ body {
 body {
   width: $fullWidth;
   height: $fullHeight;
-  padding: $padding;
+  padding: $padding $index;
   display: flex;
   flex-direction: column;
   gap: $gap;

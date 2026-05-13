@@ -31,9 +31,6 @@ export default function TrackItem({ track }: TrackItemProps) {
             height={36} 
             className={s.cover}
           /> */}
-          <div className={s.playOverlay}>
-            {showPause ? <Pause size={16} /> : <Play size={16} />}
-          </div>
         </div>
 
         <div className={s.meta}>

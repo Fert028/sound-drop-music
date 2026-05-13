@@ -33,8 +33,6 @@ export default async function RootLayout({children}: Readonly<{children: React.R
     <html lang="en" className={`${jost.variable}`}>
       <body>
 
-        {/* <GlobalGlow /> */}
-
         <AudioProvider initialPlaylist={tracks}>
           <Header />
 
@@ -42,7 +40,7 @@ export default async function RootLayout({children}: Readonly<{children: React.R
               {children}
             </PageTransition>
 
-          <Section h="min-content">
+          <Section h="80px">
             <PlayerControls />
           </Section>
 

@@ -1,5 +1,13 @@
 'use client';
-import { useState, useRef, useEffect, ReactNode, createContext, useContext } from 'react';
+
+import {
+  useState,
+  useRef,
+  useEffect,
+  ReactNode,
+  createContext,
+  useContext,
+} from 'react';
 
 export interface Track {
   id: number;
@@ -7,200 +15,209 @@ export interface Track {
   artist: string;
   src: string;
   cover?: string;
-  duration?: string;
+  duration?: number;
+  album?: string;
 }
 
 interface AudioContextType {
-  playlist?: Track[]; // Список всех треков
+  playlist: Track[];
   currentTrack: Track | null;
   isPlaying: boolean;
+
   playTrack: (track: Track) => void;
   togglePlay: () => void;
   nextTrack: () => void;
   prevTrack: () => void;
-  progress: number;        // Текущее время в секундах
-  duration: number;        // Длительность в секундах
-  seek: (time: number) => void; // Функция для перемотки
-  favorites: number[]; // Массив ID лайкнутых треков
+
+  progress: number;
+  duration: number;
+  seek: (time: number) => void;
+
+  favorites: number[];
   toggleFavorite: (trackId: number) => void;
-  setPlaylist: (newPlaylist: Track[]) => void
+
+  setPlaylist: (tracks: Track[]) => void;
 }
 
+const AudioContext = createContext<AudioContextType | null>(null);
 
-const AudioContext = createContext<AudioContextType | undefined>(undefined);
-
-export const AudioProvider = ({ children, initialPlaylist = [] }: { children: ReactNode, initialPlaylist: Track[] }) => {
-  const [playlist, setPlaylistState] = useState<Track[]>(initialPlaylist);
-  const [currentTrack, setCurrentTrack] = useState<Track | null>(initialPlaylist[0] || null);
+export const AudioProvider = ({
+  children,
+  initialPlaylist = [],
+}: {
+  children: ReactNode;
+  initialPlaylist: Track[];
+}) => {
+  const [playlist, setPlaylist] = useState<Track[]>(initialPlaylist);
+  const [currentTrack, setCurrentTrack] = useState<Track | null>(
+    initialPlaylist[0] || null
+  );
   const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
   const [favorites, setFavorites] = useState<number[]>([]);
 
+  const audioRef = useRef<HTMLAudioElement>(null);
 
+  // 🎵 Загружаем новый трек
   useEffect(() => {
-  if (!audioRef.current || !currentTrack) return;
+    const audio = audioRef.current;
+    if (!audio || !currentTrack) return;
 
-  // Устанавливаем src только если он изменился
-  if (audioRef.current.src !== window.location.origin + currentTrack.src) {
-    audioRef.current.src = currentTrack.src;
-    audioRef.current.load(); // Важно для смены файла
-    
-    // Если музыка должна играть — запускаем
+    audio.src = currentTrack.src;
+
     if (isPlaying) {
-      audioRef.current.play().catch(() => setIsPlaying(false));
+      audio.play().catch(() => setIsPlaying(false));
     }
-  }
-  }, [currentTrack]); // Сработает каждый раз, когда меняется объект трека
+  }, [currentTrack]);
 
-    // Загружаем лайки при старте
+  // ▶️ play / pause
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (isPlaying) {
+      audio.play().catch(() => setIsPlaying(false));
+    } else {
+      audio.pause();
+    }
+  }, [isPlaying]);
+
+  // ❤️ favorites
   useEffect(() => {
     const saved = localStorage.getItem('favorites');
     if (saved) setFavorites(JSON.parse(saved));
   }, []);
 
-  // Сохраняем лайки при каждом изменении
   useEffect(() => {
     localStorage.setItem('favorites', JSON.stringify(favorites));
   }, [favorites]);
 
   const toggleFavorite = (trackId: number) => {
-    setFavorites(prev => 
-      prev.includes(trackId) 
-        ? prev.filter(id => id !== trackId) // Убираем лайк
-        : [...prev, trackId] // Добавляем лайк
+    setFavorites((prev) =>
+      prev.includes(trackId)
+        ? prev.filter((id) => id !== trackId)
+        : [...prev, trackId]
     );
   };
 
-
-    // Обновляем время при проигрывании
+  // ⏱ progress
   const handleTimeUpdate = () => {
     if (audioRef.current) {
       setProgress(audioRef.current.currentTime);
     }
   };
 
-  // Получаем длительность, когда трек загрузился
   const handleLoadedMetadata = () => {
     if (audioRef.current) {
       setDuration(audioRef.current.duration);
     }
   };
 
-  // Функция перемотки
   const seek = (time: number) => {
-    if (audioRef.current) {
-      audioRef.current.currentTime = time;
-      setProgress(time);
-    }
+    if (!audioRef.current) return;
+    audioRef.current.currentTime = time;
+    setProgress(time);
   };
 
- const playTrack = (track: Track) => {
-  if (!audioRef.current) return;
-
-  // 1. Собираем ПОЛНЫЙ путь (добавляем домен: http://localhost:3000)
-  const fullSrc = window.location.origin + track.src;
-
-  if (currentTrack?.id === track.id) {
-    togglePlay();
-    return;
-  }
-
-  // 2. Сначала ставим данные
-  setCurrentTrack(track);
-  setIsPlaying(true);
-
-  // 3. Жестко прописываем новый src и вызываем load
-  audioRef.current.src = fullSrc;
-  audioRef.current.load(); // Обязательно сбрасываем предыдущий поток
-
-  // 4. Запускаем только ПОСЛЕ того, как браузер подтвердил, что готов
-  const playPromise = audioRef.current.play();
-
-  if (playPromise !== undefined) {
-    playPromise
-      .then(() => {
-        console.log("Играет:", track.title);
-      })
-      .catch((error) => {
-        console.error("Ошибка воспроизведения:", error);
-        setIsPlaying(false);
-      });
+  // 🎯 play track
+  const playTrack = (track: Track) => {
+    if (currentTrack?.id === track.id) {
+      setIsPlaying((prev) => !prev);
+      return;
     }
+
+    setCurrentTrack(track);
+    setIsPlaying(true);
   };
 
   const togglePlay = () => {
-    const audio = audioRef.current;
-    if (!audio || !currentTrack) return;
-
-    if (isPlaying) {
-      audio.pause();
-      setIsPlaying(false);
-    } else {
-      // Если src почему-то пустой, восстанавливаем его
-      if (!audio.src || audio.src.includes('undefined')) {
-        audio.src = window.location.origin + currentTrack.src;
-        audio.load();
-      }
-      
-      audio.play()
-        .then(() => setIsPlaying(true))
-        .catch(err => console.error("Ошибка при toggle:", err));
-    }
+    setIsPlaying((prev) => !prev);
   };
 
-
-
+  // ⏭ next / prev
   const nextTrack = () => {
-    const currentIndex = playlist.findIndex(t => t.id === currentTrack?.id);
-    const nextIndex = (currentIndex + 1) % playlist.length;
-    playTrack(playlist[nextIndex]);
+    if (!currentTrack) return;
+
+    const index = playlist.findIndex((t) => t.id === currentTrack.id);
+    const next = (index + 1) % playlist.length;
+
+    setCurrentTrack(playlist[next]);
+    setIsPlaying(true);
   };
 
   const prevTrack = () => {
-    const currentIndex = playlist.findIndex(t => t.id === currentTrack?.id);
-    const prevIndex = (currentIndex - 1 + playlist.length) % playlist.length;
-    playTrack(playlist[prevIndex]);
+    if (!currentTrack) return;
+
+    const index = playlist.findIndex((t) => t.id === currentTrack.id);
+    const prev = (index - 1 + playlist.length) % playlist.length;
+
+    setCurrentTrack(playlist[prev]);
+    setIsPlaying(true);
   };
 
-  const setPlaylist = (newPlaylist: Track[]) => {
-    if (newPlaylist.length > 0) {
-      setPlaylistState(newPlaylist);
-      // Передаем ПЕРВЫЙ элемент массива [0], чтобы не было ошибки типов
-      playTrack(newPlaylist[0]); 
-    }
+
+  useEffect(() => {
+  if (!currentTrack) return;
+
+  const data = {
+    track: currentTrack,
+    progress,
+    isPlaying,
   };
+
+  localStorage.setItem("player-state", JSON.stringify(data));
+  }, [currentTrack, progress, isPlaying]);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("player-state");
+    if (!saved) return;
+
+    const { track, progress, isPlaying } = JSON.parse(saved);
+
+    setCurrentTrack(track);
+    setProgress(progress);
+    setIsPlaying(isPlaying);
+  }, []);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio || !currentTrack) return;
+
+    audio.currentTime = progress;
+  }, [currentTrack]);
+
 
   return (
-    <AudioContext.Provider value={{ 
-      playlist,
-      setPlaylist,
-      currentTrack, 
-      isPlaying, 
-      playTrack, 
-      togglePlay, 
-      nextTrack, 
-      prevTrack,
-      progress, 
-      duration, 
-      seek,
-      favorites, 
-      toggleFavorite 
-    }}>
+    <AudioContext.Provider
+      value={{
+        playlist,
+        setPlaylist,
+        currentTrack,
+        isPlaying,
+        playTrack,
+        togglePlay,
+        nextTrack,
+        prevTrack,
+        progress,
+        duration,
+        seek,
+        favorites,
+        toggleFavorite,
+      }}
+    >
       {children}
-      <audio 
-        ref={audioRef} 
-        onTimeUpdate={handleTimeUpdate} 
+
+      <audio
+        ref={audioRef}
+        onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={handleLoadedMetadata}
-        onEnded={nextTrack} // Автопереход на следующий трек
-        onPlay={() => setIsPlaying(true)}
-        onPause={() => setIsPlaying(false)}
+        onEnded={nextTrack}
       />
     </AudioContext.Provider>
   );
 };
-
 
 export const useAudio = () => {
   const context = useContext(AudioContext);

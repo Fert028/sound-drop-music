@@ -1,62 +1,106 @@
-'use client';
+"use client";
 
-import s from './ProgressBar.module.scss';
-import { ChangeEvent, useState, useEffect } from 'react';
-import { formatTime } from '@/utils';
+import { useRef, useState, useEffect } from "react";
+import { useAudio } from "@/context/AudioContext";
 
-interface ProgressBarProps {
-  current: number;
-  duration: number;
-  onChange: (value: number) => void;
-}
+export default function ProgressBar() {
+  const { progress, duration, seek } = useAudio();
 
-export default function ProgressBar({ current, duration, onChange }: ProgressBarProps) {
-  // Локальный стейт, чтобы ползунок двигался плавно и не "прыгал"
-  const [localValue, setLocalValue] = useState(current);
+  const barRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
 
-  // Синхронизируем локальное значение с внешним временем, только если мы НЕ тянем ползунок
-  useEffect(() => {
-    if (!isDragging) {
-      setLocalValue(current);
+  const percent = duration ? (progress / duration) * 100 : 0;
+
+  const updatePosition = (clientX: number) => {
+    if (!barRef.current || !duration) return;
+
+    const rect = barRef.current.getBoundingClientRect();
+    const x = clientX - rect.left;
+    const percent = Math.max(0, Math.min(1, x / rect.width));
+
+    seek(percent * duration);
+  };
+
+  // 🎯 универсальный способ получить X
+  const getClientX = (e: MouseEvent | TouchEvent) => {
+    if ("touches" in e) {
+      return e.touches[0]?.clientX ?? 0;
     }
-  }, [current, isDragging]);
-
-  const progress = (localValue / duration) * 100 || 0;
-
-  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-    setLocalValue(Number(e.target.value));
+    return e.clientX;
   };
 
-  const handleChangeEnd = () => {
+  // 🖱 + 📱 START
+  const handleStart = (clientX: number) => {
+    setIsDragging(true);
+    updatePosition(clientX);
+  };
+
+  // MOVE
+  const handleMove = (e: MouseEvent | TouchEvent) => {
+    if (!isDragging) return;
+    updatePosition(getClientX(e));
+  };
+
+  // END
+  const handleEnd = () => {
     setIsDragging(false);
-    onChange(localValue); // Отправляем финальное значение в плеер
   };
 
-  const handleChangeStart = () => {
-    setIsDragging(true); // Замораживаем обновление от плеера, пока тянем
-  };
+  // 🔥 глобальные события
+  useEffect(() => {
+    window.addEventListener("mousemove", handleMove);
+    window.addEventListener("mouseup", handleEnd);
+
+    window.addEventListener("touchmove", handleMove);
+    window.addEventListener("touchend", handleEnd);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMove);
+      window.removeEventListener("mouseup", handleEnd);
+
+      window.removeEventListener("touchmove", handleMove);
+      window.removeEventListener("touchend", handleEnd);
+    };
+  }, [isDragging]);
 
   return (
-    <div className={s.container}>
-      <span className={s.time}>{formatTime(localValue)}</span>
-      <input
-        type="range"
-        min="0"
-        max={duration || 0}
-        value={localValue}
-        onMouseDown={handleChangeStart}
-        onTouchStart={handleChangeStart}
-        onChange={handleInput}
-        onMouseUp={handleChangeEnd}
-        onTouchEnd={handleChangeEnd}
-        className={s.range}
+    <div
+      ref={barRef}
+      onMouseDown={(e) => handleStart(e.clientX)}
+      onTouchStart={(e) => handleStart(e.touches[0].clientX)}
+      style={{
+        height: "6px",
+        width: "100%",
+        background: "rgba(255,255,255,0.1)",
+        borderRadius: "999px",
+        cursor: "pointer",
+        position: "relative",
+        touchAction: "none", // 🔥 ОЧЕНЬ ВАЖНО
+      }}
+    >
+      {/* прогресс */}
+      <div
         style={{
-          background: `linear-gradient(to right, #cbff2e ${progress}%, #4d4d4d ${progress}%)`
-          // background: `linear-gradient(to right, #3dd2b2 ${progress}%, #4d4d4d ${progress}%)`
+          width: `${percent}%`,
+          height: "100%",
+          background: "white",
+          borderRadius: "999px",
         }}
       />
-      <span className={s.time}>{formatTime(duration)}</span>
+
+      {/* бегунок */}
+      <div
+        style={{
+          position: "absolute",
+          left: `${percent}%`,
+          top: "50%",
+          transform: "translate(-50%, -50%)",
+          width: "12px",
+          height: "12px",
+          borderRadius: "50%",
+          background: "white",
+        }}
+      />
     </div>
   );
 }

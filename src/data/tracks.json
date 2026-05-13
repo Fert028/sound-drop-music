@@ -9,10 +9,10 @@
   },
   { 
     "id": 2, 
-    "title": "Track 2", 
-    "artist": "Artist 2", 
-    "src": "/music/track2.mp3", 
-    "duration": "1:28",
-    "cover": "/covers/track2.jpg"  
+    "title": "Vielleicht Vielleicht", 
+    "artist": "MilleniumKid, JBS", 
+    "src": "/music/MilleniumKid_JBS-Vielleicht.mp3", 
+    "duration": "2:41",
+    "cover": "/covers/MilleniumKid_JBS-Vielleicht.jpg"  
   }
 ]

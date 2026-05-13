@@ -4,6 +4,7 @@ import s from "./Header.module.scss";
 import Link from "next/link";
 import Image from "next/image";
 import Navbar from "../Navbar/Navbar";
+import { User } from "@deemlol/next-icons";
 
 export default function Header() {
   return (
@@ -17,6 +18,7 @@ export default function Header() {
         />
         <h2>Sound Drop Music</h2>
       </Link>
+      <Link href={'/'}><User color="#fff" size={28} /></Link>
       <Navbar />
     </header>
   )
